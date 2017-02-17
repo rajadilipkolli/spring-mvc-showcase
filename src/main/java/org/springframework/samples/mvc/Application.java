@@ -34,8 +34,7 @@ public class Application extends SpringBootServletInitializer
     @Bean
     public CsrfFilter csrfFilter()
     {
-        CsrfFilter csrfFilter = new CsrfFilter(new HttpSessionCsrfTokenRepository());
-        return csrfFilter;
+        return new CsrfFilter(new HttpSessionCsrfTokenRepository());
     }
     
     /**

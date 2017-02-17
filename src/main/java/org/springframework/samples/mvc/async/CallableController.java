@@ -16,38 +16,30 @@ public class CallableController {
 
 
 	@RequestMapping("/response-body")
-	public @ResponseBody Callable<String> callable() {
+	@ResponseBody public Callable<String> callable() {
 
-		return new Callable<String>() {
-			@Override
-			public String call() throws Exception {
+		return () -> {
 				Thread.sleep(2000);
 				return "Callable result";
-			}
 		};
 	}
 
 	@RequestMapping("/view")
 	public Callable<String> callableWithView(final Model model) {
 
-		return new Callable<String>() {
-			@Override
-			public String call() throws Exception {
+		return () -> {
 				Thread.sleep(2000);
 				model.addAttribute("foo", "bar");
 				model.addAttribute("fruit", "apple");
 				return "views/html";
-			}
 		};
 	}
 
 	@RequestMapping("/exception")
-	public @ResponseBody Callable<String> callableWithException(
-			final @RequestParam(required=false, defaultValue="true") boolean handled) {
+	@ResponseBody public Callable<String> callableWithException(
+			 @RequestParam(required=false, defaultValue="true") final boolean handled) {
 
-		return new Callable<String>() {
-			@Override
-			public String call() throws Exception {
+		return () -> {
 				Thread.sleep(2000);
 				if (handled) {
 					// see handleException method further below
@@ -56,22 +48,18 @@ public class CallableController {
 				else {
 					throw new IllegalArgumentException("Callable error");
 				}
-			}
 		};
 	}
 
 	@RequestMapping("/custom-timeout-handling")
-	public @ResponseBody WebAsyncTask<String> callableWithCustomTimeoutHandling() {
+	@ResponseBody public WebAsyncTask<String> callableWithCustomTimeoutHandling() {
 
-		Callable<String> callable = new Callable<String>() {
-			@Override
-			public String call() throws Exception {
+		Callable<String> callable = () -> {
 				Thread.sleep(2000);
 				return "Callable result";
-			}
 		};
 
-		return new WebAsyncTask<String>(1000, callable);
+		return new WebAsyncTask<>(1000, callable);
 	}
 
 	@ExceptionHandler

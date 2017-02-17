@@ -9,10 +9,12 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 public class CustomArgumentResolver implements HandlerMethodArgumentResolver {
 
+    @Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return parameter.getParameterAnnotation(RequestAttribute.class) != null;
 	}
 
+    @Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest,
 			WebDataBinderFactory binderFactory) throws Exception {
 		RequestAttribute attr = parameter.getParameterAnnotation(RequestAttribute.class);

@@ -39,7 +39,7 @@ public class MessageConvertersController {
 
 	@RequestMapping(value="/form", method=RequestMethod.GET)
 	public @ResponseBody MultiValueMap<String, String> writeForm() {
-		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+		MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
 		map.add("foo", "bar");
 		map.add("fruit", "apple");
 		return map;
