@@ -2,10 +2,6 @@ package org.springframework.samples.mvc.messageconverters;
 
 import javax.validation.Valid;
 
-import com.rometools.rome.feed.atom.Feed;
-import com.rometools.rome.feed.rss.Channel;
-
-import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,32 +9,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+import com.rometools.rome.feed.atom.Feed;
+import com.rometools.rome.feed.rss.Channel;
+
+@RestController
 @RequestMapping("/messageconverters")
 public class MessageConvertersController {
 
 	// StringHttpMessageConverter
 
 	@RequestMapping(value="/string", method=RequestMethod.POST)
-	public @ResponseBody String readString(@RequestBody String string) {
+	public String readString(@RequestBody String string) {
 		return "Read string '" + string + "'";
 	}
 
 	@RequestMapping(value="/string", method=RequestMethod.GET)
-	public @ResponseBody String writeString() {
+	public String writeString() {
 		return "Wrote a string";
 	}
 
 	// Form encoded data (application/x-www-form-urlencoded)
 
 	@RequestMapping(value="/form", method=RequestMethod.POST)
-	public @ResponseBody String readForm(@ModelAttribute JavaBean bean) {
+	public String readForm(@ModelAttribute JavaBean bean) {
 		return "Read x-www-form-urlencoded: " + bean;
 	}
 
 	@RequestMapping(value="/form", method=RequestMethod.GET)
-	public @ResponseBody MultiValueMap<String, String> writeForm() {
+	public MultiValueMap<String, String> writeForm() {
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
 		map.add("foo", "bar");
 		map.add("fruit", "apple");
@@ -48,31 +48,31 @@ public class MessageConvertersController {
 	// Jaxb2RootElementHttpMessageConverter (requires JAXB2 on the classpath - useful for serving clients that expect to work with XML)
 
 	@RequestMapping(value="/xml", method=RequestMethod.POST)
-	public @ResponseBody String readXml(@RequestBody JavaBean bean) {
+	public String readXml(@RequestBody JavaBean bean) {
 		return "Read from XML: " + bean;
 	}
 
 	@RequestMapping(value="/xml", method=RequestMethod.GET)
-	public @ResponseBody JavaBean writeXml() {
+	public JavaBean writeXml() {
 		return new JavaBean("bar", "apple");
 	}
 
 	// MappingJacksonHttpMessageConverter (requires Jackson on the classpath - particularly useful for serving JavaScript clients that expect to work with JSON)
 
 	@RequestMapping(value="/json", method=RequestMethod.POST)
-	public @ResponseBody String readJson(@Valid @RequestBody JavaBean bean) {
+	public String readJson(@Valid @RequestBody JavaBean bean) {
 		return "Read from JSON: " + bean;
 	}
 
 	@RequestMapping(value="/json", method=RequestMethod.GET)
-	public @ResponseBody JavaBean writeJson() {
+	public JavaBean writeJson() {
 		return new JavaBean("bar", "apple");
 	}
 
 	// AtomFeedHttpMessageConverter (requires Rome on the classpath - useful for serving Atom feeds)
 
 	@RequestMapping(value="/atom", method=RequestMethod.POST)
-	public @ResponseBody String readFeed(@RequestBody Feed feed) {
+	public String readFeed(@RequestBody Feed feed) {
 		return "Read " + feed.getTitle();
 	}
 

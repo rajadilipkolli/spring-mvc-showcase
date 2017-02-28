@@ -69,6 +69,13 @@
             <artifactId>jstl</artifactId>
         </dependency>
 
+        <!-- Removes Bioler Plate Code -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        
         <!-- Makes local development quicker -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
